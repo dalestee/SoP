@@ -61,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 totalValue = 0.0;
                 statValue = 0.0;
+                totalValueInt = 0;
                 ratioText.setText("0.0%");
+                total.setText("0");
             }
         });
     }
