@@ -1,5 +1,7 @@
 package com.demo.ndf;
 
+import static com.demo.ndf.UtilityMethods.round;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -10,10 +12,10 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
-    private Integer totalValue = 0;
-    private Integer statValue = 0;
+    private Double totalValue = 0.0;
+    private Double statValue = 0.0;
+    private Integer totalValueInt = 0;
     private Double ratio;
-    DecimalFormat ratioFormat = new DecimalFormat("#.00");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,14 +23,23 @@ public class MainActivity extends AppCompatActivity {
 
         final Button stat = findViewById(R.id.stat);
         final Button pasStat = findViewById(R.id.passtat);
+        final TextView ratioText = findViewById(R.id.ratio);
         final TextView total = findViewById(R.id.total);
+        final Button reset = findViewById(R.id.reset_button);
+        final Button save = findViewById(R.id.save_button);
+
 
         stat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 totalValue ++;
                 statValue ++;
-                total.setText(statValue.toString()+"/"+totalValue.toString());
+                totalValueInt ++;
+                ratio = statValue/totalValue;
+                ratio = ratio*100;
+                ratio = round(ratio,2);
+                ratioText.setText(ratio+"%");
+                total.setText(totalValueInt.toString());
             }
         });
 
@@ -36,8 +47,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 totalValue ++;
-                ratio = Double.valueOf(statValue/totalValue);
-                total.setText(statValue.toString()+"/"+totalValue.toString());
+                totalValueInt ++;
+                ratio = statValue/totalValue;
+                ratio = ratio*100;
+                ratio = round(ratio,2);
+                ratioText.setText(ratio+"%");
+                total.setText(totalValueInt.toString());
+            }
+        });
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                totalValue = 0.0;
+                statValue = 0.0;
+                ratioText.setText("0.0%");
             }
         });
     }
