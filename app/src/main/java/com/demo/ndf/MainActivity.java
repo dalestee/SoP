@@ -1,6 +1,6 @@
 package com.demo.ndf;
 
-import static com.demo.ndf.UtilityMethods.round;
+import static com.demo.ndf.UtilityMethods.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private Double statValue = 0.0;
     private Integer totalValueInt = 0;
     private Double ratio;
+    private int numberOfSaves = 0;
+    private Save[] saves;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
                 totalValueInt = 0;
                 ratioText.setText("0.0%");
                 total.setText("0");
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Save save = new Save(totalValue,statValue,totalValueInt,ratio);
+                writeSaveToFile(save,numberOfSaves);
             }
         });
     }
